@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>OpenPrism</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <svg hidden>
+    <symbol id="i-search" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></symbol>
+    <symbol id="i-down" viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></symbol>
+    <symbol id="i-left" viewBox="0 0 16 16"><path d="m10 4-4 4 4 4"/></symbol>
+    <symbol id="i-right" viewBox="0 0 16 16"><path d="m6 4 4 4-4 4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 16 16"><path d="m3.5 8.5 3 3 6-7"/></symbol>
+    <symbol id="i-x" viewBox="0 0 16 16"><path d="m4 4 8 8M12 4l-8 8"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 16 16"><rect x="3" y="3" width="4" height="4" rx="1"/><rect x="9" y="3" width="4" height="4" rx="1"/><rect x="3" y="9" width="4" height="4" rx="1"/><rect x="9" y="9" width="4" height="4" rx="1"/></symbol>
+    <symbol id="i-download" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v5.5M5.5 8.5 8 11l2.5-2.5"/></symbol>
+    <symbol id="i-fit" viewBox="0 0 16 16"><path d="M3 6V3h3M10 3h3v3M13 10v3h-3M6 13H3v-3"/></symbol>
+    <symbol id="i-more" viewBox="0 0 16 16"><circle cx="3.5" cy="8" r=".8"/><circle cx="8" cy="8" r=".8"/><circle cx="12.5" cy="8" r=".8"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 16 16"><path d="M5 4 2.500 6.500 5 9"/><path d="M2.500 6.500H10a3.500 3.500 0 0 1 0 7H6"/></symbol>
+    <symbol id="i-redo" viewBox="0 0 16 16"><path d="m11 4 2.500 2.500L11 9"/><path d="M13.500 6.500H6a3.500 3.500 0 0 0 0 7h4"/></symbol>
+    <symbol id="i-up" viewBox="0 0 16 16"><path d="M8 13V3.500M4 7.500l4-4 4 4"/></symbol>
+    <symbol id="i-side" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="2"/><path d="M6.500 3v10"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2M3.800 3.800l1.400 1.400M10.800 10.800l1.400 1.400M3.800 12.200l1.400-1.400M10.800 5.200l1.400-1.400"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 16 16"><path d="M3 4.500A1.500 1.500 0 0 1 4.500 3h7A1.500 1.500 0 0 1 13 4.500v5a1.500 1.500 0 0 1-1.500 1.500H7l-3 2.500V11A1.500 1.500 0 0 1 3 9.500z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 16 16"><path d="M4.500 2.500h5l3 3v8h-8z"/><path d="M9.500 2.500v3h3"/></symbol>
+    <symbol id="i-models" viewBox="0 0 16 16"><path d="m8 2.500 5.500 3L8 8.500l-5.500-3z"/><path d="m2.500 8.500 5.500 3 5.500-3"/><path d="m2.500 11 5.500 3 5.500-3"/></symbol>
+    <symbol id="i-lines" viewBox="0 0 16 16"><path d="M3 4h10M3 8h10M3 12h6"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 16 16"><path d="M8 2.500c2.500 3 4 5 4 7a4 4 0 0 1-8 0c0-2 1.500-4 4-7z"/></symbol>
+    <symbol id="i-key" viewBox="0 0 16 16"><circle cx="5.500" cy="10.500" r="2.750"/><path d="m7.500 8.500 5.500-5.500M11 5l2 2M9.500 6.500l1.500 1.500"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 16 16"><rect x="5" y="5" width="6" height="6" rx="1" fill="currentColor"/></symbol>
+  </svg>
+
+  <main id="start" hidden>
+    <aside class="side">
+      <div class="side-top"><span class="logo">OP</span></div>
+      <div class="side-item on">Your Projects</div>
+      <span class="spacer"></span>
+      <div class="side-foot">
+        <button id="start-settings" class="ghost" type="button"><svg class="i"><use href="#i-gear"/></svg>Settings</button>
+      </div>
+    </aside>
+    <section class="panel projects">
+      <header class="projects-head">
+        <h1>Your Projects</h1>
+        <span class="spacer"></span>
+        <label class="search"><svg class="i"><use href="#i-search"/></svg><input id="project-search" type="text" placeholder="Search" aria-label="Search projects"></label>
+        <div class="menu-wrap">
+          <button id="import-open" class="pill" type="button">Import<svg class="i"><use href="#i-down"/></svg></button>
+          <div id="import-menu" class="menu" hidden>
+            <label class="menu-item">Upload a zip<input id="import-file" type="file" accept=".zip,application/zip" aria-label="Zip to import"></label>
+            <button id="open-folder" class="menu-item" type="button">Open a folder on this Mac</button>
+          </div>
+        </div>
+        <button id="new-go" class="pill light" type="button"><svg class="i"><use href="#i-plus"/></svg>New</button>
+      </header>
+      <p id="start-error" class="error" role="alert" hidden></p>
+      <div class="project-table-head"><span>Name</span><span>Modified</span></div>
+      <ul id="project-rows"></ul>
+    </section>
+  </main>
+
+  <div id="app" hidden>
+    <aside id="left" class="side">
+      <div class="side-top">
+        <button id="back-projects" class="logo" type="button" title="All projects">OP</button>
+        <button id="collapse" class="icon" type="button" aria-label="Collapse the sidebar"><svg class="i"><use href="#i-side"/></svg></button>
+      </div>
+      <div class="side-body">
+        <div class="menu-wrap">
+          <button id="project-menu-open" class="project-name" type="button"><span id="project-name"></span><svg class="i"><use href="#i-down"/></svg></button>
+          <div id="project-menu" class="menu" hidden>
+            <button id="rename-project" class="menu-item" type="button">Rename</button>
+            <button id="duplicate-menu" class="menu-item" type="button">Duplicate</button>
+            <a id="export" class="menu-item" download>Export (zip)</a>
+            <button id="all-projects" class="menu-item" type="button">All projects</button>
+          </div>
+        </div>
+        <div class="side-tabs" role="tablist">
+          <button id="tab-files" class="side-tab on" type="button" role="tab">Files</button>
+          <button id="tab-chats" class="side-tab" type="button" role="tab">Chats</button>
+          <span class="spacer"></span>
+          <button id="search-toggle" class="icon" type="button" aria-label="Search the project"><svg class="i"><use href="#i-search"/></svg></button>
+          <button id="new-file" class="icon" type="button" aria-label="Add a file"><svg class="i"><use href="#i-plus"/></svg></button>
+        </div>
+        <div id="files-view" class="side-view">
+          <label id="search-box" class="search" hidden><svg class="i"><use href="#i-search"/></svg><input id="search-input" type="text" placeholder="Search in project" aria-label="Search in project"></label>
+          <ul id="search-results" hidden></ul>
+          <div id="tree"></div>
+          <div class="outline">
+            <button id="outline-toggle" class="outline-head" type="button" aria-expanded="true"><svg class="i"><use href="#i-down"/></svg>Outline</button>
+            <div id="outline"></div>
+          </div>
+        </div>
+        <div id="chats-view" class="side-view" hidden>
+          <button id="new-chat" class="pill light wide" type="button"><svg class="i"><use href="#i-chat"/></svg>New chat</button>
+          <ul id="chat-list"></ul>
+        </div>
+        <div class="side-foot">
+          <button id="open-settings" class="ghost" type="button"><svg class="i"><use href="#i-gear"/></svg>Settings</button>
+          <span class="spacer"></span>
+          <button id="duplicate" class="pill small" type="button">Duplicate</button>
+        </div>
+      </div>
+    </aside>
+
+    <section id="middle">
+      <div id="tabs-row">
+        <button id="chat-tab" class="icon" type="button" aria-label="Show the chat"><svg class="i"><use href="#i-chat"/></svg></button>
+        <div id="tabs" role="tablist"></div>
+        <span class="spacer"></span>
+        <button id="tools-toggle" class="tools-button" type="button"><span id="tools-label">Tools</span><svg class="i"><use id="tools-icon" href="#i-grid"/></svg></button>
+      </div>
+      <div id="notice" role="alert" hidden></div>
+      <div id="editor-wrap">
+        <div id="editor"></div>
+        <section id="assistant">
+          <div id="chat-panel" hidden>
+            <button id="chat-hide" class="icon floating" type="button" aria-label="Hide the chat"><svg class="i"><use href="#i-x"/></svg></button>
+            <div id="messages" aria-live="polite"></div>
+          </div>
+          <div id="welcome" hidden>
+            <strong>Add your API key to use the assistant</strong>
+            <p>It reads your project and proposes edits you keep or undo. Your key stays in the macOS keychain.</p>
+            <button id="welcome-settings" class="pill light small" type="button">Open Settings</button>
+          </div>
+          <form id="composer">
+            <textarea id="prompt" rows="2" placeholder="Ask anything" aria-label="Message"></textarea>
+            <div class="composer-row">
+              <div class="menu-wrap pick-wrap">
+                <button id="model-open" class="pick-pill" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Choose a model">
+                  <span id="model-label" class="pick-label">Choose a model</span><svg class="i"><use href="#i-down"/></svg>
+                </button>
+                <div id="model-menu" class="picker" hidden>
+                  <label id="model-filter-row" class="picker-filter" hidden>
+                    <svg class="i"><use href="#i-search"/></svg>
+                    <input id="model-filter" type="text" placeholder="Find a model" aria-label="Find a model" spellcheck="false" autocomplete="off">
+                  </label>
+                  <div id="model-list" class="picker-list"></div>
+                  <button id="model-manage" class="picker-foot" type="button"><svg class="i"><use href="#i-key"/></svg>Add or manage providers</button>
+                </div>
+              </div>
+              <div class="menu-wrap pick-wrap">
+                <button id="effort-open" class="pick-pill" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Choose an effort level">
+                  <span id="effort-meter" class="meter" aria-hidden="true"></span><span id="effort-label" class="pick-label">Maximum</span><svg class="i"><use href="#i-down"/></svg>
+                </button>
+                <div id="effort-menu" class="picker effort-picker" hidden></div>
+              </div>
+              <span class="spacer"></span>
+              <button id="stop" class="send" type="button" aria-label="Stop" hidden><svg class="i"><use href="#i-stop"/></svg></button>
+              <button id="send" class="send" type="submit" aria-label="Send"><svg class="i"><use href="#i-up"/></svg></button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <div id="split" role="separator" aria-orientation="vertical"></div>
+
+    <section id="right">
+      <div id="pdf-panel" class="pdf-panel">
+        <header class="pdf-bar">
+          <div class="menu-wrap">
+            <div class="compile-pill">
+              <button id="compile" type="button" title="Compile (Cmd+Enter)"><svg id="status-icon" class="i"><use href="#i-check"/></svg><span id="status" role="status">Compile</span></button>
+              <button id="compile-menu-open" type="button" aria-label="Compile options"><svg class="i"><use href="#i-down"/></svg></button>
+            </div>
+            <div id="compile-menu" class="menu light-menu" hidden>
+              <label class="menu-field">Main file<select id="main-file"></select></label>
+              <label class="menu-check"><input id="realtime" type="checkbox">Realtime compilation</label>
+              <button id="cancel" class="menu-item" type="button" hidden>Cancel this compile</button>
+            </div>
+          </div>
+          <button id="view-errors" class="link-button" type="button" hidden>View errors</button>
+          <span class="spacer"></span>
+          <button id="zoom-fit" class="icon" type="button" aria-label="Zoom to fit"><svg class="i"><use href="#i-fit"/></svg></button>
+          <a id="download-pdf" class="icon" aria-label="Download PDF" download><svg class="i"><use href="#i-download"/></svg></a>
+          <div class="menu-wrap">
+            <button id="more-open" class="icon" type="button" aria-label="More options"><svg class="i"><use href="#i-more"/></svg></button>
+            <div id="more-menu" class="menu light-menu right" hidden>
+              <button id="zoom-in" class="menu-item" type="button">Zoom in</button>
+              <button id="zoom-out" class="menu-item" type="button">Zoom out</button>
+            </div>
+          </div>
+        </header>
+        <div id="pdf"><p class="empty">Compile to see the PDF. Double-click the PDF to jump to the source.</p></div>
+        <div class="jump-pill">
+          <button id="undo" class="icon" type="button" aria-label="Undo"><svg class="i"><use href="#i-undo"/></svg></button>
+          <button id="redo" class="icon" type="button" aria-label="Redo"><svg class="i"><use href="#i-redo"/></svg></button>
+          <button id="goto-source" class="icon" type="button" aria-label="Go to the source of this page"><svg class="i"><use href="#i-left"/></svg></button>
+          <button id="goto-pdf" class="jump-label" type="button" title="Cmd+J">Go to PDF</button>
+          <button id="goto-pdf-arrow" class="icon" type="button" aria-label="Go to PDF"><svg class="i"><use href="#i-right"/></svg></button>
+        </div>
+      </div>
+
+      <div id="tools-panel" class="panel tools" hidden>
+        <div class="tool-tabs" role="tablist">
+          <button class="tool-tab on" data-tool="info" type="button" role="tab">Project Info</button>
+          <button class="tool-tab" data-tool="versions" type="button" role="tab">Versions</button>
+          <button class="tool-tab" data-tool="comments" type="button" role="tab">Comments</button>
+          <button class="tool-tab" data-tool="logs" type="button" role="tab">Logs</button>
+        </div>
+        <div class="tool-view" data-view="info">
+          <h2>Summary</h2>
+          <dl id="info"></dl>
+        </div>
+        <div class="tool-view" data-view="versions" hidden>
+          <h2>Versions</h2>
+          <form id="history-form" class="row">
+            <input id="history-message" type="text" placeholder="What changed" aria-label="Version message">
+            <button class="pill light small" type="submit">Save version</button>
+          </form>
+          <p id="history-error" class="error" role="alert" hidden></p>
+          <ul id="history-list"></ul>
+          <p id="history-count" class="muted small"></p>
+        </div>
+        <div class="tool-view" data-view="comments" hidden>
+          <h2>All Comments</h2>
+          <p class="muted">Comments are not built yet.</p>
+        </div>
+        <div class="tool-view" data-view="logs" hidden>
+          <h2>Raw logs</h2>
+          <ul id="diagnostics"></ul>
+          <pre id="log-text"></pre>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <dialog id="settings" aria-labelledby="settings-title">
+    <div class="set-shell">
+      <nav class="set-nav" aria-label="Settings sections">
+        <h2 id="settings-title">Settings</h2>
+        <div id="set-tabs" class="set-tabs">
+          <span class="set-tab-shade" aria-hidden="true"></span>
+          <button class="set-tab on" type="button" data-section="models"><svg class="i"><use href="#i-models"/></svg>Models</button>
+          <button class="set-tab" type="button" data-section="instructions"><svg class="i"><use href="#i-lines"/></svg>Instructions</button>
+          <button class="set-tab" type="button" data-section="appearance"><svg class="i"><use href="#i-drop"/></svg>Appearance</button>
+        </div>
+      </nav>
+      <div class="set-body">
+        <button id="settings-close" class="icon set-close" type="button" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button>
+
+        <section id="set-models" class="set-section">
+          <h3 class="set-title">Models</h3>
+          <p class="set-lead">Add a key for each provider you use. Their models then appear together in the menu under your message box, and you can switch at any point in a chat.</p>
+          <ul id="provider-list" class="provider-list"></ul>
+          <form id="provider-form" class="set-group provider-form" autocomplete="off">
+            <h4 id="provider-form-title">Add a provider</h4>
+            <div id="p-presets" class="chips" role="group" aria-label="Provider"></div>
+            <div id="p-custom" class="field-grid" hidden>
+              <label>Name <input id="p-name" type="text" placeholder="My provider"></label>
+              <label>Type
+                <select id="p-type">
+                  <option value="anthropic">Anthropic</option>
+                  <option value="openai">OpenAI-compatible</option>
+                </select>
+              </label>
+              <label class="field-wide">Base URL <input id="p-url" type="text" spellcheck="false" placeholder="https://example.com/v1"></label>
+            </div>
+            <label>API key
+              <input id="p-key" type="password" autocomplete="new-password" spellcheck="false" placeholder="Paste your key here">
+            </label>
+            <p id="p-key-state" class="muted small"></p>
+            <div id="p-found" class="found" role="status" hidden></div>
+            <p id="p-error" class="error" role="alert" hidden></p>
+            <div class="row">
+              <button id="p-save" class="pill light" type="submit">Save</button>
+              <button id="p-clear" class="pill" type="button" hidden>Cancel</button>
+            </div>
+          </form>
+        </section>
+
+        <section id="set-instructions" class="set-section" hidden>
+          <form id="instructions-form" class="instructions-form">
+            <h3 class="set-title">Instructions</h3>
+            <p class="set-lead">Sent to the model with every message, whichever provider answers. <span id="instructions-state"></span></p>
+            <textarea id="instructions" spellcheck="false" aria-label="Instructions for the model"></textarea>
+            <div class="row">
+              <button class="pill light" type="submit">Save instructions</button>
+              <button id="instructions-reset" class="pill" type="button">Reset to default</button>
+              <span id="instructions-saved" class="saved-note" role="status"></span>
+            </div>
+          </form>
+        </section>
+
+        <section id="set-appearance" class="set-section" hidden>
+          <h3 class="set-title">Appearance</h3>
+          <p class="set-lead">Changes apply as you make them.</p>
+
+          <h4 class="set-group-title">Colour</h4>
+          <div class="set-group">
+            <div class="set-row"><span>Theme</span><div id="a-theme" class="seg"></div></div>
+            <div class="set-row"><span>Accent</span><div id="a-accent" class="swatches"></div></div>
+            <div class="set-row"><label for="a-background">Background</label><div class="well-row"><input id="a-background" type="color"><button class="link-quiet" type="button" data-color-reset="background">Default</button></div></div>
+            <div class="set-row"><label for="a-panel">Panels</label><div class="well-row"><input id="a-panel" type="color"><button class="link-quiet" type="button" data-color-reset="panel">Default</button></div></div>
+            <div class="set-row"><label for="a-text">Text</label><div class="well-row"><input id="a-text" type="color"><button class="link-quiet" type="button" data-color-reset="text">Default</button></div></div>
+            <p id="a-contrast" class="contrast-note" role="status" hidden></p>
+          </div>
+
+          <h4 class="set-group-title">Type</h4>
+          <div class="set-group">
+            <div class="set-row"><label for="a-ui-font">Interface font</label><div class="font-pick"><select id="a-ui-font"></select><input id="a-ui-font-other" type="text" placeholder="Any font installed on this Mac" aria-label="Interface font name" spellcheck="false" hidden></div></div>
+            <div class="set-row"><label for="a-ui-size">Interface size</label><div class="slide-row"><input id="a-ui-size" type="range" min="11" max="18" step="1"><output id="a-ui-size-value"></output></div></div>
+            <div class="set-row"><label for="a-editor-font">Editor font</label><div class="font-pick"><select id="a-editor-font"></select><input id="a-editor-font-other" type="text" placeholder="Any font installed on this Mac" aria-label="Editor font name" spellcheck="false" hidden></div></div>
+            <div class="set-row"><label for="a-editor-size">Editor size</label><div class="slide-row"><input id="a-editor-size" type="range" min="10" max="24" step="1"><output id="a-editor-size-value"></output></div></div>
+            <div class="set-row"><label for="a-editor-leading">Line spacing</label><div class="slide-row"><input id="a-editor-leading" type="range" min="1.2" max="2.4" step="0.1"><output id="a-editor-leading-value"></output></div></div>
+          </div>
+
+          <h4 class="set-group-title">Shape and motion</h4>
+          <div class="set-group">
+            <div class="set-row"><label for="a-corners">Corners</label><div class="slide-row"><input id="a-corners" type="range" min="0" max="2" step="0.1"><output id="a-corners-value"></output></div></div>
+            <div class="set-row"><span>Animations</span><div id="a-motion" class="seg"></div></div>
+          </div>
+          <button id="a-reset" class="pill" type="button">Reset appearance</button>
+        </section>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="consent">
+    <h2>Before the first request</h2>
+    <p>This sends to <strong id="consent-host"></strong>:</p>
+    <ul id="consent-list"></ul>
+    <p class="muted small">The assistant can also ask to read other files in this project. Each one it reads is listed in the chat.</p>
+    <div class="row">
+      <button id="consent-yes" class="pill light" type="button">Send</button>
+      <button id="consent-no" class="pill" type="button">Cancel</button>
+    </div>
+  </dialog>
+
+  <dialog id="ask">
+    <form id="ask-form">
+      <h2 id="ask-title"></h2>
+      <input id="ask-input" type="text" spellcheck="false" aria-labelledby="ask-title">
+      <div class="row">
+        <button class="pill light" type="submit">OK</button>
+        <button id="ask-cancel" class="pill" type="button">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>
