@@ -90,7 +90,18 @@ TOOL_EDIT = {
         "required": ["rel", "old_text", "new_text", "summary"],
     },
 }
-TOOLS = [TOOL_READ, TOOL_EDIT]
+DESIGN_SKILLS = {"layout": "scientific-pdf-design", "figure": "scientific-figure-design"}
+TOOL_DESIGN = {
+    "name": "read_design_skill",
+    "description": "Consult the built-in layout guide when composing a scientific PDF, or the figure guide "
+                   "when designing a statistical graphic. Returns editorial guidance for this task.",
+    "schema": {
+        "type": "object",
+        "properties": {"topic": {"type": "string", "enum": list(DESIGN_SKILLS)}},
+        "required": ["topic"],
+    },
+}
+TOOLS = [TOOL_READ, TOOL_EDIT, TOOL_DESIGN]
 
 
 # Keychain
@@ -452,6 +463,8 @@ def plain_history(messages: list) -> list[dict]:
 
 def _tool_note(name: str | None, args) -> str:
     args = args if isinstance(args, dict) else {}
+    if name == "read_design_skill":
+        return f"[Consulted the {args.get('topic', 'design')} guide]"
     if name == "propose_edit":
         return f"[Proposed an edit to {args.get('rel', 'a file')}: {args.get('summary', '')}]"
     return f"[Read {args.get('rel', 'a file')}]"
@@ -679,6 +692,19 @@ def _run_tool(call: dict, project: Project, proposals: Proposals, emit) -> tuple
     if not isinstance(args, dict):
         return "The tool input was not valid JSON. Send it again.", True
     try:
+        if call["name"] == "read_design_skill":
+            topic = args.get("topic")
+            if not isinstance(topic, str) or topic not in DESIGN_SKILLS:
+                return "Choose layout or figure.", True
+            name = DESIGN_SKILLS[topic]
+            path = os.path.join(os.path.dirname(__file__), "..", ".agents", "skills", name, "SKILL.md")
+            try:
+                with open(path, encoding="utf-8") as source:
+                    guide = source.read()
+            except OSError:
+                return f"The bundled {name} skill is unavailable.", True
+            emit({"type": "note", "text": f"Consulted the {name} skill."})
+            return guide, False
         if call["name"] == "read_file":
             rel = str(args.get("rel", ""))
             emit({"type": "tool_call", "name": "read_file", "rel": rel})

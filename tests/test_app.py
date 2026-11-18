@@ -11,6 +11,7 @@ import tempfile
 import threading
 import time
 import unittest
+from unittest.mock import patch
 import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -410,6 +411,20 @@ class AssistantTests(TempCase):
         run_turn(self.project, self.provider(kind), key, conversation, text, {"rel": rel}, self.proposals,
                  events.append, req or Request())
         return events, conversation
+
+    def test_authoring_tools_return_the_bundled_design_guide_to_the_provider(self):
+        for kind, topic, heading in (("anthropic", "layout", "# Scientific PDF design"),
+                                     ("openai", "figure", "# Scientific figure design")):
+            with self.subTest(kind=kind):
+                call = {"name": "read_design_skill", "input": {"topic": topic}}
+                with patch.object(fake_provider, "decide", side_effect=[("", call), ("Ready.", None)]):
+                    self.turn(kind, "Help me design this result.")
+                body = self.fake.handler.seen[-1]["body"]
+                result = body["messages"][-1]["content"]
+                if kind == "anthropic":
+                    result = result[0]["content"]
+                self.assertIn(heading, result)
+                self.assertIn("read_design_skill", json.dumps(body["tools"]))
 
     def test_nothing_is_written_until_keep_and_undo_restores(self):
         for kind in ("anthropic", "openai"):

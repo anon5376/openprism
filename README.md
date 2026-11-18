@@ -24,6 +24,12 @@ Open the link it prints. The link holds a session token, so keep it to yourself.
 - Lets you choose the effort level for each message, and only offers the levels a model reports it can use.
 - Lets you edit the instructions sent to the model, and change the theme, colours, fonts, sizes, corners and animations.
 
+## Scientific PDF design
+
+Ask the assistant to compose a results page or design a statistical figure. It can consult two bundled guides for [page layout](.agents/skills/scientific-pdf-design/SKILL.md) and [quantitative figures](.agents/skills/scientific-figure-design/SKILL.md). Proposed edits use the usual Keep workflow. Press Compile to inspect the result.
+
+The [one-page example](examples/scientific-pdf/scheduler-latency.pdf) shows two scheduler medians and a separate interval for their paired difference. Its [editable LaTeX source](examples/scientific-pdf/scheduler-latency.tex) uses synthetic values.
+
 ## API keys
 
 Open Settings, choose a provider, and paste your key. Anthropic, OpenAI, OpenRouter, Google and xAI are one click, and Other takes any OpenAI-compatible address.

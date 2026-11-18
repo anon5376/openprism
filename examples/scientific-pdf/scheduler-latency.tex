@@ -1,0 +1,69 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=25mm,top=23mm,bottom=22mm]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{booktabs}
+\definecolor{ink}{HTML}{202A31}
+\definecolor{muted}{HTML}{49565F}
+\definecolor{teal}{HTML}{006C64}
+\definecolor{rulegray}{HTML}{B8C2C4}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\newcommand{\rubric}[1]{{\sffamily\bfseries\color{teal}#1}}
+\newcommand{\sectiontitle}[1]{\refstepcounter{section}{\fontsize{17}{21}\selectfont\bfseries #1}\par}
+\begin{document}
+\color{ink}
+{\sffamily\small\bfseries Synthetic worked example}\hfill{\sffamily\small OpenPrism}\par
+\vspace{2mm}{\color{teal}\hrule height 1pt}
+\vspace{10mm}
+{\fontsize{32}{35}\selectfont Scheduler latency in\\paired simulations\par}
+\vspace{5mm}
+{\large In 24 paired simulations, the revised scheduler had a lower median latency.
+The bootstrap interval for the paired difference included zero.\par}
+
+\vspace{11mm}
+\sectiontitle{Latency by scheduler}\label{sec:latency}
+\vspace{2mm}
+\begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}r@{}}
+\toprule
+\sffamily Scheduler & \sffamily Median latency (ms)\\
+\midrule
+Baseline & 14.2\\[1mm]
+Revised & 12.1\\
+\bottomrule
+\end{tabular*}
+
+\vspace{10mm}
+\sectiontitle{Difference within pairs}
+\vspace{2mm}
+{\color{muted}Revised minus baseline latency (ms)}\par
+\vspace{3mm}
+% Each horizontal coordinate is a millisecond on the same signed scale.
+\begin{tikzpicture}[x=2.68cm,y=1cm,font=\sffamily\small]
+  \draw[rulegray] (-4,0) -- (1,0);
+  \foreach \tick in {-4,-3,-2,-1,0,1}{
+    \draw[muted] (\tick,0) -- ++(0,-0.11);
+    \node[below=3pt,text=muted] at (\tick,0) {$\tick$};
+  }
+  \draw[muted,densely dashed] (0,0.05) -- (0,1.35);
+  \draw[teal,line width=1.6pt] (-3.1,0.78) -- (0.2,0.78);
+  \foreach \endpoint in {-3.1,0.2}
+    \draw[teal,line width=1.2pt] (\endpoint,0.64) -- (\endpoint,0.92);
+  \fill[teal] (-1.8,0.78) circle[radius=2.6pt];
+  \node[above=4pt,text=ink] at (-1.8,0.81) {$-1.8$};
+\end{tikzpicture}\par
+\vspace{2mm}
+\refstepcounter{figure}\label{fig:paired-latency}
+{\small\textbf{Figure~\thefigure.} Median paired difference in 24 simulations.
+The point marks the estimate ($-1.8$~ms). The line spans the 95\% bootstrap
+interval ($-3.1$ to $0.2$~ms). Negative values favor the revised scheduler.\par}
+\vspace{8mm}
+\rubric{Interpretation}\par
+\vspace{1.5mm}
+The interval extends from a reduction in latency to a small increase.
+Neither scheduler was tested on hardware.\par
+\vfill
+{\color{rulegray}\hrule}\vspace{2mm}
+{\sffamily\footnotesize\color{muted}Simulated scheduler latency\hfill 1}
+\end{document}
